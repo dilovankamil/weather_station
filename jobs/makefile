@@ -2,7 +2,7 @@
 
 start-jobs: install-dependencies kill-existing-jobs
 	echo "Starting new jobs:"
-	pm2 start ./main.py --interpreter ./venv/bin/python --cron "* * * * *" --name fetch-weather-data-job --no-autorestart
+	pm2 start ./main.py --cron "* * * * *" --name fetch-weather-data-job --no-autorestart
 	
 install-dependencies: requirements.txt
 	echo "Installing dependencies:"

@@ -2,7 +2,7 @@ import os
 import glob
 import time
 
-class Temperature():
+class DS18B20_Reader():
     def __init__(self) -> None:
         os.system("modprobe w1-gpio")
         os.system("modprobe w1-therm")

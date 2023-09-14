@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from jobs.utils.ds18b20_reader import DS18B20_Reader
-from jobs.utils.bme280_reader import BME280_Reader
+from utils.ds18b20_reader import DS18B20_Reader
+from utils.bme280_reader import BME280_Reader
 
 if __name__ == "__main__":
     ds18b20_reader = DS18B20_Reader()

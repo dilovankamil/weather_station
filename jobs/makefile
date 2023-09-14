@@ -10,4 +10,4 @@ install-dependencies: requirements.txt
 
 kill-existing-jobs:
 	echo "Killing existing jobs:"
-	pm2 delete fetch-weather-data-job
+	pm2 delete fetch-weather-data-job | echo "Existing job fetch-weather-data-job could not be found"

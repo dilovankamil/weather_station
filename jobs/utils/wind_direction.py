@@ -26,9 +26,10 @@ volts = {
 }
 
 
-def voltage_divider(r1,r2,vin) -> float:
-    vout = (vin * r1)/(r1+r2)
+def voltage_divider(r1, r2, vin) -> float:
+    vout = (vin * r1) / (r1 + r2)
     return round(vout, 3)
+
 
 def get_average(angles):
     sin_sum = 0.0
@@ -54,13 +55,13 @@ def get_average(angles):
 
     return 0.0 if average == 360 else average
 
+
 def get_value(time_length=5):
     data = []
-    print(f"Measuring wind direction for {time_length} seconds...")
     start_time = time.time()
 
     while time.time() - start_time <= time_length:
-        wind = round(adc.value*3.3,1)
+        wind = round(adc.value * 3.3, 1)
         if wind in volts:
             data.append(volts[wind])
 

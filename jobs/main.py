@@ -54,9 +54,11 @@ if __name__ == "__main__":
                 store_directions.append(get_wind_direction(wind_interval))
             final_speed = calculate_wind_speed(wind_interval)
             store_speeds.append(final_speed)
-
+        print("Getting wind gust speed...")
         wind_gust = max(store_speeds)
+        print("Getting average wind speed...")
         wind_speed = statistics.mean(store_speeds)
+        print("Getting average wind direction...")
         wind_direction = get_wind_direction_average(store_directions)
         store_speeds = []
         store_directions = []

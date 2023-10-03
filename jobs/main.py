@@ -1,12 +1,13 @@
 from datetime import datetime
 import time
 import statistics
-import threading
 import math
 
 from gpiozero import Button
 from utils.ds18b20_reader import DS18B20_Reader
 from utils.bme280_reader import BME280_Reader
+from utils.wind_direction import get_value as get_wind_direction
+from utils.wind_direction import get_average as get_wind_direction_average
 
 
 def spin():
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     bme280_reader = BME280_Reader()
 
     store_speeds = []
+    store_directions = []
 
     while True:
         print(f"Starting job at {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}")
@@ -48,20 +50,23 @@ if __name__ == "__main__":
         while time.time() - start_time <= 300:  # 5 * 60 seconds = 300
             wind_start_time = time.time()
             reset_wind()
-
+            while time.time() - wind_start_time <= wind_interval:
+                store_directions.append(get_wind_direction(wind_interval))
             final_speed = calculate_wind_speed(wind_interval)
             store_speeds.append(final_speed)
 
         wind_gust = max(store_speeds)
         wind_speed = statistics.mean(store_speeds)
+        wind_direction = get_wind_direction_average(store_directions)
         store_speeds = []
+        store_directions = []
 
         pressure, humidity = bme280_reader.get_readings()
         temperature = ds18b20_reader.read_temp()
 
         with open("dump.txt", "w") as f:
             f.write(
-                f"Current temperature is: {temperature}°C\nCurrent humidity is: {humidity}%\nCurrent pressure is: {pressure}hPa\nWind speed is: {wind_speed}\nWind gust is: {wind_gust}\nAt time: {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}"
+                f"Current temperature is: {temperature}°C\nCurrent humidity is: {humidity}%\nCurrent pressure is: {pressure}hPa\nWind speed is: {wind_speed}m/s\nWind gust is: {wind_gust}m/s\nWind direction is: {wind_direction}°\nAt time: {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}"
             )
 
         print(f"Finishing job at {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}")

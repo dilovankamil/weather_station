@@ -2,7 +2,7 @@
 
 start-jobs: install-dependencies
 	echo "Starting new jobs:"
-	pm2 start ./main.py --cron "* * * * *" --name fetch-weather-data-job --no-autorestart
+	pm2 start ./main.py --name fetch-weather-data-job
 	
 install-dependencies: requirements.txt
 	echo "Installing dependencies:"
